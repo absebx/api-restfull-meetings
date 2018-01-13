@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var app = require('./app');
 
 var port = process.env.port || 4500;
-mongoose.connect('mongodb://localhost:27017/app_albuns', (err, res)=>{
+mongoose.connect('mongodb://localhost:27017/app_meetings', (err, res)=>{
   if(err){
     throw err;
   }else{
