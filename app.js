@@ -5,6 +5,7 @@ var app = express();
 
 //carga de rutas
 var meeting_routes = require('./routes/meeting');
+var ticket_routes = require('./routes/ticket');
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
@@ -25,5 +26,6 @@ app.use((req, res, next)=>{
 //rutas base
 
 app.use('/api', meeting_routes);
+app.use('/api', ticket_routes);
 
 module.exports = app;
