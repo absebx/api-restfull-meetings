@@ -102,10 +102,33 @@ function getTickets (req, res){
   });
 }
 
+function checkTicket (req, res){
+  var ticketId = req.params.id;
+  Ticket.findById(ticketId, (err, ticket)=>{
+    if(err){
+      res.status(500).send({message: 'Internal server error'});
+    }else{
+      if(!ticket){
+        res.status(404).send({message: 'ticket not found'});
+      }else{
+        ticket.check = !ticket.check;
+        ticket.save((err,ticketUpdated)=>{
+          if(err || !ticketUpdated){
+            res.status(500).send({message: 'Internal server error'});
+          }else{
+            res.status(200).send({ticketUpdated: ticketUpdated});
+          }
+        });
+      }
+    }
+  });
+}
+
 module.exports = {
   test,
   getTicket,
   saveTicket,
   deleteTicket,
-  getTickets
+  getTickets,
+  checkTicket
 }
