@@ -90,15 +90,22 @@ function updateMeeting(req, res){
 
 function deleteMeeting(req, res){
   var meetingId = req.params.id;
-  Meeting.findByIdAndRemove(meetingId, (err,meetingDeleted)=>{
+  //eliminat tickets
+  Ticket.deleteMany({meeting: meetingId},(err)=>{
     if(err){
-      res.status(500).send({message: "internal server error"});
+      res.status(500).send({message: "Internal server error"});
     }else{
-      if(!meetingDeleted){
-        res.status(404).send({message: "Meeting not found"});
-      }else{
-        res.status(200).send({meeting: meetingDeleted});
-      }
+      Meeting.findByIdAndRemove(meetingId, (err,meetingDeleted)=>{
+        if(err){
+          res.status(500).send({message: "internal server error"});
+        }else{
+          if(!meetingDeleted){
+            res.status(404).send({message: "Meeting not found"});
+          }else{
+            res.status(200).send({meeting: meetingDeleted});
+          }
+        }
+      });
     }
   });
 }
